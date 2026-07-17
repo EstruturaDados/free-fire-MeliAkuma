@@ -16,6 +16,7 @@ typedef struct{ //Dados da mochila
 void ExibirItens(DMochila *Mochila, int Titens); //Exibe a lista de Itens da mochila no terminal
 void AdicionarItem(int *Titens, DMochila *Mochila); //Adiciona um item a mochila
 void RemoverItem(DMochila *Mochila, int *Titens); //Remove um item da mochila
+void ListarItemPorNome(DMochila *Mochila, int Titens);
 
 
 int main() {
@@ -35,6 +36,9 @@ int main() {
             case 3:
                 ExibirItens(Mochila, TItens);
                 if(TItens > 0){printf("Pressione Enter para voltar..."); LimparBufferEntrada(); getchar();};
+                break;
+            case 4:
+                ListarItemPorNome(Mochila,TItens);
                 break;
             case 0: 
                 printf("\n0Saindo...");
@@ -134,6 +138,31 @@ void RemoverItem(DMochila *Mochila, int *Titens){
     };    
 }
 
+void ListarItemPorNome(DMochila *Mochila, int Titens){
+    if(Titens <= 0){printf("Não tem itens na mochila! Pressione Enter para voltar..."); LimparBufferEntrada(); getchar(); return;};
+    char item[30];
+    printf("\nDigite o nome do item procurado: ");
+    scanf("%s",item);
+    for(int n = 0; n < Titens; n++){
+        if(strcmp(item,Mochila[n].nome) == 0){
+            printf("\nItem Encontrado com sucesso! \n");
+            printf("-------------------------");
+            printf("\nNome: %s\n",Mochila[n].nome);
+            printf("Tipo: %s\n",Mochila[n].tipo);
+            printf("Quantidade: %d\n",Mochila[n].quantidade);
+            printf("-------------------------\n");
+            printf("\nPressione Enter para voltar...");
+            LimparBufferEntrada();
+            getchar();
+            return;
+        };
+    
+    };
+    printf("\nO item não foi encontrado...");
+    LimparBufferEntrada();  
+    getchar();
+    return;
+}
 
 
 //----------------------------------------------------------------------//
@@ -144,7 +173,7 @@ int ExibirMenu(int Itens){
     printf("Mochila do jogador: %d/%d Itens\n",Itens,MaxItens);
     printf("==============================\n");
 
-    printf(" 01: Adicionar Item.\n 02: Remover Item. \n 03: Listar Itens.\n 00: Sair.\n---------------------- \n Opção: ");
+    printf(" 01: Adicionar Item.\n 02: Remover Item. \n 03: Listar Itens.\n 04: Encontrar item por nome.\n 00: Sair.\n---------------------- \n Opção: ");
     
     scanf("%d",&opcao);
     return opcao;
